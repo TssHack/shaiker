@@ -1,16 +1,28 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+const PORT = process.env.PORT || 3000; // پورت مورد نظر برای اجرای API
 
-// مسیر اصلی برای دریافت داده‌ها
-app.get('/usdt-irt', async (req, res) => {
-  try {
-    const response = await axios.get('https://api.nobitex.ir/v2/orderbook/USDTIRT');
-    res.json(response.data);
-  } catch (error) {
-    res.status(500).json({ error: 'خطا در دریافت داده از نوبیتکس' });
-  }
+// مسیر API برای دریافت اطلاعات Nobitex
+app.get('/nobitex-orderbook', async (req, res) => {
+    const nobitexApiUrl = 'https://api.nobitex.ir/v2/orderbook/USDTIRT';
+
+    try {
+        const response = await axios.get(nobitexApiUrl);
+        // ارسال خروجی وب‌سرویس Nobitex به عنوان پاسخ API
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching data from Nobitex API:', error.message);
+        // ارسال خطای مناسب در صورت عدم موفقیت
+        res.status(500).json({
+            error: 'Failed to fetch data from Nobitex API',
+            details: error.message
+        });
+    }
 });
 
-// تبدیل express app به تابع قابل استفاده در Vercel
-module.exports = app;
+// اجرای سرور
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Access the API at http://localhost:${PORT}/nobitex-orderbook`);
+});
