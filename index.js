@@ -4,7 +4,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; // پورت مورد نظر برای اجرای API
 
 // مسیر API برای دریافت اطلاعات Nobitex
-app.get('/nobitex-orderbook', async (req, res) => {
+app.get('/USDTIRT', async (req, res) => {
     const nobitexApiUrl = 'https://api.nobitex.ir/v2/orderbook/USDTIRT';
 
     try {
@@ -24,5 +24,5 @@ app.get('/nobitex-orderbook', async (req, res) => {
 // اجرای سرور
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-    console.log(`Access the API at http://localhost:${PORT}/nobitex-orderbook`);
+    console.log(`Access the API at http://localhost:${PORT}/USDTIRT`);
 });
